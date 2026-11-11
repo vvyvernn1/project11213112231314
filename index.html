@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Между строк — литературный проект</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=PT+Serif:ital,wght@0,400;1,400&family=Caveat:wght@500&display=swap&subset=cyrillic">
+<style>
+:root{--bg:#f4ecdc;--bg2:#eadfc6;--ink:#2d2419;--soft:#5c4c3a;--acc:#8a3b2a;--line:#cdbd9d;
+--h:'Playfair Display',Georgia,serif;--b:'PT Serif',Georgia,serif;--hand:'Caveat','Segoe Script',cursive;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f1913;--bg2:#2a221a;--ink:#eadfc8;--soft:#c4b79d;--acc:#e0a07c;--line:#4a3e30}}
+:root[data-theme="dark"]{--bg:#1f1913;--bg2:#2a221a;--ink:#eadfc8;--soft:#c4b79d;--acc:#e0a07c;--line:#4a3e30}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.75 var(--b)}
+h1,h2,h3{font-family:var(--h);line-height:1.2;margin:0 0 .6em}
+h2{font-size:clamp(1.8rem,4vw,2.6rem)}h2 em,h1 em{color:var(--acc)}
+section{padding:80px 20px}section:nth-of-type(even){background:var(--bg2)}
+.w{max-width:960px;margin:auto}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:18px;justify-content:center;flex-wrap:wrap;padding:10px}
+nav a,footer a{color:var(--soft);text-decoration:none;font-size:.95rem}nav a:hover,footer a:hover{color:var(--acc)}
+.hero{min-height:88vh;display:flex;align-items:center;text-align:center}
+.hero h1{font-size:clamp(3rem,10vw,6.5rem);font-weight:700}
+.hero p{font-family:var(--hand);font-size:1.9rem;color:var(--acc);margin:0 0 1.2em}
+.fade{opacity:0;transform:translateY(18px);animation:in 1s ease forwards}
+.fade:nth-child(2){animation-delay:.3s}.fade:nth-child(3){animation-delay:.6s}
+@keyframes in{to{opacity:1;transform:none}}
+.btn{display:inline-block;background:var(--acc);color:var(--bg);border:0;padding:13px 30px;border-radius:30px;font:inherit;text-decoration:none;cursor:pointer;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.rv{opacity:0;transform:translateY(24px);transition:all .8s}.rv.on{opacity:1;transform:none}
+.about{display:grid;grid-template-columns:1fr 200px;gap:40px;align-items:center}
+.about svg{width:100%;color:var(--acc)}
+.ev{display:flex;gap:22px;padding:18px 0;border-bottom:1px solid var(--line)}
+.ev b{font:700 1.3rem var(--h);color:var(--acc);min-width:110px}.ev h3{font-size:1.2rem;margin:0}.ev p{margin:.2em 0 0;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tile{aspect-ratio:1;border:1px solid var(--line);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:3rem;cursor:pointer;background:var(--bg);color:var(--ink);font-family:var(--b);transition:transform .3s}
+.tile:hover{transform:scale(1.04)}.tile span{font-size:.95rem;color:var(--soft)}
+#lb{position:fixed;inset:0;background:rgba(45,36,25,.9);display:none;align-items:center;justify-content:center;z-index:9;padding:20px}
+#lb.on{display:flex}#lb div{background:var(--bg);padding:50px 60px;border-radius:8px;text-align:center;font-size:7rem;max-width:90vw}
+#lb img{width:min(70vw,420px);border-radius:6px;display:block}.tile{position:relative;overflow:hidden;padding:0}.tile img{width:100%;height:100%;object-fit:cover}.tile span{position:absolute;bottom:0;left:0;right:0;padding:8px;background:rgba(45,36,25,.78);color:#f4ecdc}
+#lb p{font:1.2rem var(--b);margin:.5em 0 0;color:var(--soft)}
+.q{text-align:center;min-height:240px;position:relative}
+.q blockquote{margin:0;font:italic 500 clamp(1.5rem,3.5vw,2.3rem)/1.4 var(--h);transition:opacity .5s}
+.q blockquote::before{content:"«";display:block;font-size:5rem;line-height:.6;color:var(--acc)}
+.q cite{display:block;margin-top:1em;font:1.8rem var(--hand);color:var(--acc)}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.dots button{width:12px;height:12px;border-radius:50%;border:1px solid var(--acc);background:none;padding:0;cursor:pointer}.dots .on{background:var(--acc)}
+form{display:grid;gap:14px;max-width:520px}
+input,textarea{font:inherit;padding:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;width:100%}
+input:focus,textarea:focus{outline:2px solid var(--acc)}
+.soc{margin-top:22px;color:var(--soft)}.soc a{color:var(--acc)}
+footer{padding:40px 20px;text-align:center;border-top:1px solid var(--line);color:var(--soft);font-size:.95rem}
+footer .logo{font:700 1.4rem var(--h);color:var(--ink)}footer nav{position:static;border:0;padding:8px}
+#pp{display:none;max-width:560px;margin:14px auto 0;text-align:left}
+@media(max-width:700px){.about{grid-template-columns:1fr}.about svg{max-width:130px;margin:auto}.ev{flex-direction:column;gap:4px}#lb div{padding:30px;font-size:5rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fade,.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><a href="#about">О проекте</a><a href="#events">События</a><a href="#gallery">Вдохновение</a><a href="#quotes">Цитаты</a><a href="#contact">Контакты</a></nav>
+
+<section class="hero"><div class="w">
+<h1 class="fade">Между <em>строк</em></h1>
+<p class="fade">где живут слова</p>
+<a class="btn fade" href="#about">Узнать больше</a> <a class="btn fade" href="#contact" style="margin-left:8px">Присоединиться</a>
+</div></section>
+
+<section id="about"><div class="w rv"><div class="about"><div>
+<h2>О <em>проекте</em></h2>
+<p>«Между строк» — это уголок для тех, кто любит книги, поэзию и тихие вечера с чернильницей и пером. Наша миссия — вернуть литературе её дыхание и сделать чтение общим делом.</p>
+<p>Мы собираем читателей и авторов: устраиваем поэтические вечера, обсуждаем прозу, пробуем писать сами. Здесь не нужно быть профессионалом — достаточно любить слово.</p>
+<p>Каждая рукопись начинается с одной строки. Возможно, ваша — следующая.</p></div>
+<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22h30c5 0 8 3 8 8v52c0-5-3-8-8-8H12zM88 22H58c-5 0-8 3-8 8v52c0-5 3-8 8-8h30z"/><path d="M70 8c-8 6-14 14-16 24 8-2 14-8 16-24z" /><path d="M54 32 48 42"/></svg>
+</div></div></section>
+
+<section id="events"><div class="w rv"><h2>Программа и <em>события</em></h2>
+<div class="ev"><b>21 ноября</b><div><h3>Вечер любимой поэзии</h3><p>Каждый читает вслух стихотворение, которое стало для него важным.</p></div></div>
+<div class="ev"><b>5 декабря</b><div><h3>Книжный клуб: русская классика</h3><p>Разбираем повесть и спорим о героях за чашкой чая.</p></div></div>
+<div class="ev"><b>19 декабря</b><div><h3>Мастерская письма</h3><p>Практикум для начинающих: от первой строки до готового рассказа.</p></div></div>
+<div class="ev"><b>16 января</b><div><h3>Рукописи не горят</h3><p>Встреча о судьбах книг, которые удалось сохранить.</p></div></div>
+</div></section>
+
+<section id="gallery"><div class="w rv"><h2>Галерея / <em>Вдохновение</em></h2>
+<div class="grid" id="g"></div></div></section>
+<div id="lb" role="dialog" aria-label="Просмотр"><div><span id="lbi"></span><p id="lbt"></p></div></div>
+
+<section id="quotes"><div class="w rv q">
+<blockquote id="qt"></blockquote><cite id="qa"></cite>
+<div class="dots" id="dots"></div></div></section>
+
+<section id="contact"><div class="w rv"><h2>Напишите <em>нам</em></h2>
+<form id="f"><input name="n" placeholder="Ваше имя" required aria-label="Имя"><input type="email" name="e" placeholder="Email" required aria-label="Email"><textarea name="m" rows="5" placeholder="Сообщение" required aria-label="Сообщение"></textarea><button class="btn" type="submit">Отправить</button><p id="ok" style="margin:0;color:var(--acc)"></p></form>
+<p class="soc">Telegram: <a href="#contact">@mezhdustrok</a> · VK: <a href="#contact">vk.com/mezhdustrok</a><br>Email: <a href="mailto:hello@mezhdustrok.example">hello@mezhdustrok.example</a> · Тел.: +7 (900) 000-00-00</p>
+</div></section>
+
+<footer><div class="logo">✒ Между строк</div>
+<nav><a href="#about">О проекте</a><a href="#events">События</a><a href="#gallery">Галерея</a><a href="#quotes">Цитаты</a><a href="#" id="ppl">Политика конфиденциальности</a></nav>
+<div id="pp">Мы используем ваше имя и email только для ответа на обращение и не передаём их третьим лицам.</div>
+<div>© 2026 Между строк</div></footer>
+
+<script>
+function S(bg,body){return 'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="'+bg+'"/>'+body+'</svg>')}
+var items=[
+[S('#d9c4a0','<path d="M100 60Q70 48 30 56V152Q70 144 100 156Z" fill="#f1e6cf" stroke="#5c4c3a" stroke-width="3"/><path d="M100 60Q130 48 170 56V152Q130 144 100 156Z" fill="#ebdcc0" stroke="#5c4c3a" stroke-width="3"/><path d="M42 74Q70 68 90 74M42 90Q70 84 90 90M42 106Q70 100 90 106M110 74Q130 68 158 74M110 90Q130 84 158 90M110 106Q130 100 158 106" stroke="#8a3b2a" stroke-width="2.5" fill="none"/><path d="M30 156Q100 170 170 156V164Q100 178 30 164Z" fill="#8a3b2a"/>'),'Старые книги'],
+[S('#8a3b2a','<path d="M128 20C96 40 80 80 78 116c28-12 46-48 50-96z" fill="#f1e6cf"/><path d="M128 20L82 128" stroke="#2d2419" stroke-width="3"/><rect x="62" y="126" width="76" height="52" rx="10" fill="#2d2419"/><rect x="82" y="112" width="36" height="16" fill="#3d3226"/><circle cx="100" cy="152" r="10" fill="#d9946f"/>'),'Перо и чернила'],
+[S('#c9b48c','<rect x="50" y="34" width="100" height="132" fill="#f1e6cf" stroke="#5c4c3a" stroke-width="3"/><rect x="40" y="26" width="120" height="14" rx="7" fill="#8a3b2a"/><rect x="40" y="160" width="120" height="14" rx="7" fill="#8a3b2a"/><path d="M66 62h68M66 78h68M66 94h50M66 110h68M66 126h40" stroke="#5c4c3a" stroke-width="3" stroke-linecap="round"/>'),'Рукописи'],
+[S('#2a221a','<circle cx="100" cy="88" r="62" fill="#e0a07c" opacity=".18"/><rect x="82" y="92" width="36" height="76" rx="4" fill="#eadfc8"/><rect x="60" y="166" width="80" height="10" rx="5" fill="#8a3b2a"/><path d="M100 94V82" stroke="#eadfc8" stroke-width="3"/><path d="M100 40C116 62 114 82 100 82S84 62 100 40z" fill="#e0a07c"/>'),'Вечер при свечах'],
+[S('#b9a27a','<ellipse cx="100" cy="100" rx="66" ry="84" fill="#d9c4a0" stroke="#5c4c3a" stroke-width="6"/><circle cx="100" cy="80" r="26" fill="#5c4c3a"/><path d="M52 168C54 128 76 112 100 112s46 16 48 56C130 180 70 180 52 168z" fill="#5c4c3a"/><path d="M84 112l16 16 16-16" fill="#f1e6cf"/>'),'Портрет поэта'],
+[S('#6b7a5a','<rect x="34" y="60" width="132" height="90" rx="4" fill="#f1e6cf" stroke="#3d3226" stroke-width="3"/><path d="M34 64L100 114 166 64" fill="none" stroke="#3d3226" stroke-width="3"/><circle cx="100" cy="114" r="13" fill="#8a3b2a"/><path d="M95 114h10M100 109v10" stroke="#f1e6cf" stroke-width="2.5"/>'),'Письма']];
+var g=document.getElementById('g'),lb=document.getElementById('lb');
+items.forEach(function(x){var b=document.createElement('button');b.className='tile';b.innerHTML='<img src="'+x[0]+'" alt="'+x[1]+'"><span>'+x[1]+'</span>';
+b.onclick=function(){document.getElementById('lbi').innerHTML='<img src="'+x[0]+'" alt="'+x[1]+'">';document.getElementById('lbt').textContent=x[1];lb.classList.add('on')};g.appendChild(b)});
+lb.onclick=function(){lb.classList.remove('on')};document.onkeydown=function(e){if(e.key==='Escape')lb.classList.remove('on')};
+var Q=[["Рукописи не горят.","М. А. Булгаков"],["В человеке должно быть всё прекрасно: и лицо, и одежда, и душа, и мысли.","А. П. Чехов"],["Все счастливые семьи похожи друг на друга, каждая несчастливая семья несчастлива по-своему.","Л. Н. Толстой"],["Красота спасёт мир.","Ф. М. Достоевский"]];
+var qi=0,qt=document.getElementById('qt'),qa=document.getElementById('qa'),dots=document.getElementById('dots'),tm;
+Q.forEach(function(_,i){var d=document.createElement('button');d.setAttribute('aria-label','Цитата '+(i+1));d.onclick=function(){show(i);clearInterval(tm)};dots.appendChild(d)});
+function show(i){qi=i;qt.style.opacity=0;setTimeout(function(){qt.textContent=Q[i][0]+'»';qa.textContent=Q[i][1];qt.style.opacity=1;[].forEach.call(dots.children,function(d,k){d.className=k===i?'on':''})},300)}
+show(0);tm=setInterval(function(){show((qi+1)%Q.length)},6000);
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on')})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+document.getElementById('f').onsubmit=function(e){e.preventDefault();document.getElementById('ok').textContent='Спасибо! Мы ответим вам в ближайшее время.';e.target.reset()};
+document.getElementById('ppl').onclick=function(e){e.preventDefault();var p=document.getElementById('pp');p.style.display=p.style.display==='block'?'none':'block'};
+</script>
+</body>
+</html>
